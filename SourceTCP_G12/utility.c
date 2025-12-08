@@ -71,7 +71,7 @@ void* serverClientHandler(void* pClientSocket) {
     //libero la memoria allocata per quel puntatore dato che non serve piu` nel loop
     free(pClientSocket);
 
-    printf("Thread creato per il client %d.\n",cliSock);
+    printf("Thread creato per il client %d.\n",cliSock-3);
 
     //logica di comunicazione
     //invio messaggio di avvenuta connessione
