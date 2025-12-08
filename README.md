@@ -7,6 +7,11 @@
 Ho iniziato il progetto creando in primis la parte **TCP** ed in seguito la parte **UDP** applicando qualche modifica sul codice originale TCP.
 Pertanto i commenti nei source file UDP fanno spesso riferimento a cose in quelli TCP, indi per cui è meglio ispezionare prima il codice TCP.
 
+### Decisioni implementative
+Essendo il goal finale quello di creare una calcolatrice trovavo la sintassi di **LETTERA**: **V1**,**V2** poco intuitiva.
+Nella mia implementazione ho preferito usare una sintassi più intuitiva e simile ad una calcolatrice, ovvero **V1** **OPERATORE** **V2**.
+Tutte le informazioni necessarie verranno anche printate dai client nello standard output.
+
 ### Struttura file
 Per questioni di praticità sia implementativa che compilativa ho creato dei source file per **client** e **server** ed un source file condiviso **utility**
 contenente funzioni generiche necessarie a entrambi. I source file per entrambi i casi sono presenti nelle loro rispettive cartelle denominate col nome del caso + id del gruppo.
