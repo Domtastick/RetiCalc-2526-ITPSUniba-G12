@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <netdb.h>
+#include <arpa/inet.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include "main.h"
@@ -13,12 +15,32 @@ void errore(const char* msg) {
 }
 
 //funzione per risolvere il nome inserito clientside
-void risolviNome(int socket,char* buffer) {
-    if (strcmp(buffer, "localhost\n") == 0) {
-        memset(buffer, 0, IPLEN);
-        snprintf(buffer, IPLEN, "%s", "127.0.0.1");
-    }else {
+void risolviNome(int socket,char* buffer) {//copiaincollata da source TCP
+    struct hostent* entry;
+    struct in_addr **lista;
+
+    buffer[strcspn(buffer, "\n")] = 0;//serve rimuovere il newline senno` gethostbyname impazzisce
+
+    entry = gethostbyname(buffer);
+
+    //exception handling
+    if (entry == NULL) {
+        herror("gethostbyname");//outputta l'errore preciso. utile
         printf("Nome non trovato! riavviare il programma e riprovare.\n");
+        close(socket);
+        return;
+    }
+
+    //estrazione dalla lista
+    lista = (struct in_addr**) entry->h_addr_list;
+
+    //piu` error checking e output finale
+    if (lista[0] != NULL) {
+        char *ip = inet_ntoa(*lista[0]);
+        strncpy(buffer, ip, 15);
+        buffer[15] = '\0'; //aggiunta del null terminator
+    } else {
+        printf("Impossibile trovare indirizzo IP!\n");
         close(socket);
     }
 }
